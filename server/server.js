@@ -23,4 +23,3 @@ mongoose.connect(process.env.MONG_URI)
 
 //Make your API calls for every usecase here
 
-  
