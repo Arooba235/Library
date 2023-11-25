@@ -1,14 +1,14 @@
-import '../styles/homepage.css'
+import '../styles/login.css'
 import { Link } from 'react-router-dom'
 
 const Homepage = (prop)=> {
   return (
     <div className='Homepage'>
       <Link to="/login">
-        <button>Login</button>
+        <button className="sub-button">Login</button>
       </Link>
       <Link to="/signup">
-        <button>Signup</button>
+        <button className="sub-button">Signup</button>
       </Link>
     </div>
   )

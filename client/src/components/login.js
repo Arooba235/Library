@@ -10,10 +10,10 @@ const Login = (prop)=>{
             <div className='partition'></div>
             <form className='form' >
                 <div >
-                    <input className="user-inp" type='username' placeholder='username'  />
+                    <input className="user-inp" type='username' placeholder='username' required />
                 </div>
                <div>
-                    <input className="pass-inp" type='password' placeholder='password'  />
+                    <input className="pass-inp" type='password' placeholder='password' required />
                </div>
                <div>
                 <button className="sub-button">Login</button>
@@ -22,7 +22,7 @@ const Login = (prop)=>{
             </form>
             <div className="question">Don't have an account?</div>
             <Link to="/signup">
-                <button>Signup</button>
+                <button >Signup</button>
             </Link>
         </div>
     )
