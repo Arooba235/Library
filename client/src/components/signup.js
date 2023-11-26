@@ -1,72 +1,43 @@
-import '../styles/login.css'
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-const Signup = (prop)=> {
-  const [userType, setUserType] = useState(''); // 'student', 'staff', or 'manager'
+const Signup = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
-  const handleUserTypeChange = (event) => {
-    setUserType(event.target.value);
-  };
+  const handleSignup = async (e) => {
+    e.preventDefault();
 
-  const renderFormFields = () => {
-    switch (userType) {
-      case 'student':
-        return (
-          <div>
-            <input className="user-inp" type="text" placeholder="Name" required/>
-            <input className="user-inp" type="text" placeholder="Contact" required/>
-            <input className="pass-inp" type="text" placeholder="Password" required/>
-          </div>
-        );
-      case 'staff':
-        return (
-          <div>
-            <input className="user-inp" type="text" placeholder="Name" required/>
-            <input className="user-inp" type="text" placeholder="Contact" required/>
-            <input className="pass-inp" type="text" placeholder="Password" required/>
-          </div>
-        );
-      case 'manager':
-        return (
-          <div>
-            <input className="user-inp" type="text" placeholder="Name" required/>
-            <input className="user-inp" type="text" placeholder="Contact" required/>
-            <input className="pass-inp" type="text" placeholder="Password" required/>
-          </div>
-        );
-      default:
-        return null;
+    try {
+      const response = await axios.post('http://localhost:5000/signup', { username, password });
+      setSuccess(true);
+      setError('');
+    } catch (err) {
+      setSuccess(false);
+      setError(err.response.data.error);
     }
-  };
-  const myStyle = {
-    background: 'black',
-    color: 'white',
   };
 
   return (
-    <div  className="login-page" style={myStyle}>      
-      <div className="login-header"> Library Management <span class="lib-name">System</span></div>
-      <div className='partition'></div>
-      <form className='form' >
-        <h2>Signup Page</h2>
-        <div>
-          <label >Select User Type:</label>
-          <select onChange={handleUserTypeChange}>
-            <option className="user-inp" value="" required>Select User Type</option>
-            <option value="student">Student</option>
-            <option value="staff">Staff</option>
-            <option value="manager">Manager</option>
-          </select>
-        </div>
-
-        {userType && renderFormFields()}
-
-        {/* Add a submit button and handle form submission logic */}
-        <button className="sub-button">Submit</button>
-      </form>
-    </div>
+    <form onSubmit={handleSignup}>
+      <div>
+        <h1>Sign up page</h1>
+        <label htmlFor="username">Username:</label>
+        <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+      </div>
+      <div>
+        <label htmlFor="password">Password:</label>
+        <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      </div>
+      {error && <div>{error}</div>}
+      {success && <div>Signup successful!</div>}
+      <button type="submit">Signup</button>
+      {success && <Link to="/studenthome">Go to Home Page</Link>}
+    </form>
   );
-}
+};
 
-export default Signup
+export default Signup;

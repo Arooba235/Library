@@ -1,23 +1,26 @@
-import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import {BrowserRouter} from 'react-router-dom';
-import Login from './components/login';
-import Homepage from './components/homepage';
-import Signup from './components/signup';
+// import logo from './logo.svg';
+// import './App.css';
+import StudentHome from './components/StudentHome.js';
+import Login from './components/Login.js';
+import Signup from './components/Signup.js';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from 'react';
+import Search from './components/Search.js';
+
 
 function App() {
-
   return (
-    <BrowserRouter>
+    <div className="App">
+      <Router>
         <Routes>
-            <Route path="/" element={<Homepage/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/signup" element={<Signup/>}/>
-                             
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/studenthome" element={<StudentHome />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
-      </BrowserRouter>
-    
-  )
+      </Router>
+    </div>
+  );
 }
 
 export default App;
