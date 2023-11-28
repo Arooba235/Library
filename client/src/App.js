@@ -1,8 +1,10 @@
 // import logo from './logo.svg';
 // import './App.css';
 import StudentHome from './components/StudentHome.js';
-import Login from './components/Login.js';
-import Signup from './components/Signup.js';
+import StaffHome from './components/StaffHome.js';
+import ManageBooks from './components/ManageBooks.js';
+import Login from './components/login.js';
+import Signup from './components/signup.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
 import Search from './components/Search.js';
@@ -16,6 +18,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/studenthome" element={<StudentHome />} />
+          <Route path="/staffhome" element={<StaffHome />} />
+          <Route path="/managebooks" element={<ManageBooks />} />
           <Route path="/search" element={<Search />} />
         </Routes>
       </Router>

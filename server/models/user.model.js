@@ -3,6 +3,19 @@ import uniqueValidator from "mongoose-unique-validator";
 
 const Schema = mongoose.Schema;
 
+
+
+const userSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    // wins: { type: Number},
+    // totalpoints: { type: Number},
+    usertype: { type: String}
+});
+  
+const User = mongoose.model('User', userSchema);
+
+export default User;
 // const userSchema = new Schema({
 //     username: {
 //         type: String,
@@ -34,20 +47,3 @@ const Schema = mongoose.Schema;
 // userSchema.plugin(uniqueValidator);
 
 // const User = mongoose.model('User', userSchema);
-
-
-const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    // wins: { type: Number},
-    // totalpoints: { type: Number},
-    usertype: { type: String}
-});
-  
-const User = mongoose.model('User', userSchema);
-  
-
-
-
-
-export default User;
