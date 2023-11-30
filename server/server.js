@@ -63,6 +63,21 @@ app.post('/signup', async (req, res) => {
     
     res.status(201).json({ message: 'User created successfully' });
 });
+app.post('/addbook', async (req, res) => {
+  try {
+    const { title, author, genre } = req.body;
+    const existingBook = await Book.findOne({ title, author, genre });
+    if (existingBook) {
+      return res.status(400).json({ error: 'Book already exists' });
+    }
+    const newBook = new Book({title,author,genre,});
+    await newBook.save();
+    res.status(201).json({ message: 'Book added successfully' });
+  } catch (error) {
+    console.error('Error adding book:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.get('/getbooks', async (req, res) => {
   try {
