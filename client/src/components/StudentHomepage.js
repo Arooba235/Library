@@ -3,11 +3,10 @@ import './StudentHomepage.css';
 import { Link } from "react-router-dom";
 import React, { useState,useEffect  } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
 
 function StudentHomepage(props) {
-    const { username } = useParams();
+    const username = localStorage.getItem('username');
     const [Books, setBooks] = useState([]);
     const [error, setError] = useState('');
     const [showAddForm, setShowAddForm] = useState(false);
