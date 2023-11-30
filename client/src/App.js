@@ -9,9 +9,10 @@ import Login from './components/login.js';
 import Signup from './components/signup.js';
 import Navbar from './navbar.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from 'react';
+import { Component, useState } from 'react';
 import Search from './components/Search.js';
-
+import BookRequest from './components/bookRequest.js'
+import NavbarStaff from './navbarStaff.js';
 
 function App() {
   return (
@@ -23,8 +24,9 @@ function App() {
           <Route path="/studenthome" element={[<Navbar />, <StudentHomepage />]} />
           <Route path="/feedback" element={[<Navbar/>,<Feedback/>]} />
           <Route path="/staffhome" element={<StaffHome />} />
-          <Route path="/managebooks" element={<ManageBooks />} />
+          <Route path="/managebooks" element={[<NavbarStaff/>,<ManageBooks />]} />
           <Route path="/search" element={<Search />} />
+          <Route path="/bookRequest" element={[<NavbarStaff/>,<BookRequest />]} />
         </Routes>
       </Router>
     </div>

@@ -9,6 +9,7 @@ function StaffHome() {
     return (
         <div>
           <button> <Link to="/managebooks">  Manage Book Collection! </Link> </button>
+          <button> <Link to="/bookRequest"> Book Acquisition Requests </Link> </button>
         </div>
     )
 }

@@ -6,6 +6,7 @@ import User from "./models/user.model.js";
 import Feedback from "./models/feedback.model.js";
 import Book from "./models/books.model.js";
 import Request from "./models/request.model.js";
+import Checkout from "./models/checkout.model.js";
 // import Stats from "./models/stats.model.js";
 
 dotenv.config();
@@ -91,7 +92,6 @@ app.get('/getbooks', async (req, res) => {
 
 app.post('/feedback', async (req, res) => {
   try {
-      // Extract feedback data from the request body
       console.log(req.body);
       const { studentId, staffId, staffRating, bookQuality, bookVariety, checkoutExperience } = req.body;
       const user = await User.findOne({ username: studentId, usertype: 'student' });
@@ -109,10 +109,8 @@ app.post('/feedback', async (req, res) => {
       const feedbackexist = await Feedback.findOne({ studentId, staffId });
       if (feedbackexist) {
         res.status(401).json({ error: 'Can not submit same feedback more than once' });
-        // return res.status(400).json({ error: 'Feedback already submitted' });
         return;
       }
-      // Create a new Feedback instance
       const newFeedback = new Feedback({
           studentId,
           staffId,
@@ -121,25 +119,13 @@ app.post('/feedback', async (req, res) => {
           bookVariety,
           checkoutExperience
       });
-
-      // Save the feedback to the database
       await newFeedback.save();
-
       res.status(201).json({ message: 'Feedback submitted successfully' });
   } catch (error) {
       console.error('Error saving feedback:', error);
       res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-
-
-
-// app.get('/search',cors(),(req,res) => {
-
-// })
-
-
 app.get('/search/:username', async (req, res) => {
     const username = req.params.username;
     const user = await User.findOne({ username: username });
@@ -150,10 +136,6 @@ app.get('/search/:username', async (req, res) => {
     const { wins, totalpoints } = user;
     res.json({ wins, totalpoints });
 });
-
-
-
-
 app.get('/leaderboard', async (req, res) => {
     try {
       const users = await User.find().sort({ totalpoints: -1, wins: -1 }).limit(5);
@@ -168,8 +150,6 @@ app.get('/leaderboard', async (req, res) => {
       res.status(500).send('Server error');
     }
 });
-
-
 app.post('/borrow', async (req, res) => {
   try {
     const { studentName, title, author, genre } = req.body;
@@ -188,6 +168,58 @@ app.post('/borrow', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+// ... (existing imports)
+
+app.get('/getrequests', async (req, res) => {
+  try {
+    const requests = await Request.find();
+    res.json(requests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to fetch requests' });
+  }
+});
+app.post('/processrequest', async (req, res) => {
+  try {
+    const { requestId, action } = req.body;
+    const request = await Request.findById(requestId);
+    if (!request) {
+      return res.status(404).json({ error: 'Request not found' });
+    }
+    if (action === 'accept') {
+      const issueDate = new Date();
+      const returnDate = new Date();
+      returnDate.setDate(returnDate.getDate() + 14);
+
+      const newCheckout = new Checkout({
+        studentName: request.studentName,
+        title: request.title,
+        author: request.author,
+        genre: request.genre,
+        issueDate,
+        returnDate,
+      });
+      await Request.findByIdAndDelete(requestId);
+      await newCheckout.save();
+    } else if (action === 'reject') {
+      await Request.findByIdAndDelete(requestId);
+      const newBook = new Book({
+        title: request.title,
+        author: request.author,
+        genre: request.genre,
+      });
+      await newBook.save();
+    } else {
+      return res.status(400).json({ error: 'Invalid action' });
+    }
+    res.status(200).json({ message: 'Request processed successfully' });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
