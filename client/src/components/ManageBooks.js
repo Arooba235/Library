@@ -28,7 +28,6 @@ function ManageBooks() {
       .post('http://localhost:5000/addbook', { title, author, genre })
       .then((response) => {
         console.log(response.data);
-        // Optionally, you can redirect or show a success message
       })
       .catch((error) => {
         setErrorMessage(error.response.data.error);
