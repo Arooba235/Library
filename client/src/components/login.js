@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -24,16 +25,16 @@ function Login() {
         // Redirect based on usertype
         switch (response.data.usertype) {
           case 'student':
-            window.location.href = '/studenthome';
+             navigate(`/studenthome/${username}`);
             break;
           case 'staff':
-            window.location.href = '/staffhome';
+            navigate('/staffhome');
             break;
           case 'manager':
-            window.location.href = '/managerhome';
+            navigate('/managerhome');
             break;
           default:
-            window.location.href = '/';
+            navigate('/');
         }
       })
       .catch(error => {

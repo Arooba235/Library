@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import User from "./models/user.model.js";
 import Feedback from "./models/feedback.model.js";
 import Book from "./models/books.model.js";
+import Request from "./models/request.model.js";
 // import Stats from "./models/stats.model.js";
 
 dotenv.config();
@@ -153,6 +154,25 @@ app.get('/leaderboard', async (req, res) => {
     }
 });
 
+
+app.post('/borrow', async (req, res) => {
+  try {
+    const { studentName, title, author, genre } = req.body;
+    const existingRequest = await Request.findOne({ studentName, title,author,genre });
+    await Book.deleteOne({ title, author, genre });
+
+    if (existingRequest) {
+      return res.status(400).json({ error: 'Request already exists' });
+    }
+    const newRequest = new Request({ studentName, title, author, genre });
+    await newRequest.save();
+
+    res.status(201).json({ message: 'Book borrowed successfully' });
+  } catch (error) {
+    console.error('Error borrowing book:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
