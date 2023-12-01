@@ -5,18 +5,19 @@ import axios from 'axios';
 function ViewCheckout(props){
     const [showCheckouts, setshowCheckouts] = useState([]);  
     const [error, setError] = useState('');
-    useEffect(()=>{
-        const viewcheck = async () =>{
-            try{
-                const response = await axios.get('http://localhost:5000/viewcheckout');
-                console.log(response)
-                setshowCheckouts(response);
-            }catch(error){
-                setError('Failed to fetch checkouts')
-            }
-        }
+    useEffect(() => {
+        const viewcheck = async () => {
+          try {
+            const response = await axios.get('http://localhost:5000/viewcheckout');
+            console.log(response);
+            setshowCheckouts(response.data); 
+          } catch (error) {
+            setError('Failed to fetch checkouts');
+          }
+        };
+      
         viewcheck();
-    },[])
+      }, []);
     
     return (
         <div>
