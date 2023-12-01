@@ -135,20 +135,32 @@ app.get('/feedbackmanager', async (req, res) => {
 
 
 
-app.post('/addContact', async (req, res) => {
-  const { name, number } = req.body;
+app.post('/addUser', async (req, res) => {
+  const { username, password } = req.body;
+  // const wins = 0;
+  // const totalpoints = 0;
+  const usertype = 'student';
 
-  try {
-    const newContact = new User({ name, number });
-    await newContact.save();
-    res.status(201).json(newContact);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Failed to add User' });
+  // Check if username is already taken
+  const existingUser = await User.findOne({ username });
+  if (existingUser) {
+    return res.status(409).json({ error: 'Username is already taken' });
   }
-});
 
-app.get('/getContacts', async (req, res) => {
+  // Validate password
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters long and contain at least one uppercase letter and one number' });
+  }
+
+  // Create new user
+  // const newUser = new User({ username, password, wins, totalpoints });
+  const newUser = new User({ username, password, usertype });
+  await newUser.save();
+  
+  res.status(201).json({ message: 'User created successfully' });});
+
+app.get('/getusers', async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -158,30 +170,30 @@ app.get('/getContacts', async (req, res) => {
   }
 });
 
-app.delete('/deleteContact/:id', async (req, res) => {
-  const { id } = req.params;
+// app.delete('/deleteContact/:id', async (req, res) => {
+//   const { id } = req.params;
 
-  try {
-    await User.findByIdAndRemove(id);
-    res.json({ message: 'Contact deleted successfully' });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Failed to delete contact' });
-  }
-});
+//   try {
+//     await User.findByIdAndRemove(id);
+//     res.json({ message: 'Contact deleted successfully' });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: 'Failed to delete contact' });
+//   }
+// });
 
-app.put('/updateContact/:id', async (req, res) => {
-  const { id } = req.params;
-  const { name, number } = req.body;
+// app.put('/updateContact/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const { name, number } = req.body;
 
-  try {
-    const updatedContact = await User.findByIdAndUpdate(id, { name, number }, { new: true });
-    res.json(updatedContact);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Failed to update contact' });
-  }
-});
+//   try {
+//     const updatedContact = await User.findByIdAndUpdate(id, { name, number }, { new: true });
+//     res.json(updatedContact);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: 'Failed to update contact' });
+//   }
+// });
 
 
 
