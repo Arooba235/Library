@@ -21,13 +21,14 @@ function Login({ onLogin }) {
     axios.post('http://localhost:5000/', { username: username, password: password })
       .then(response => {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('username', username);
+        
         onLogin()
         // window.location.href = '/';
         // Redirect based on usertype
         switch (response.data.usertype) {
           case 'student':
-             navigate(`/studenthome`);
+            localStorage.setItem('username', username);
+            navigate(`/studenthome`);
             break;
           case 'staff':
             localStorage.setItem('staffname', username);

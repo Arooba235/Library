@@ -21,6 +21,7 @@ import FeedbackManager from './components/feedbackManager.js';
 import ManageStaffInfo from './components/manageStaffInfo.js';
 // import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import UserCheckoutPage from './components/borrowedbooks.js';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -52,6 +53,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/studenthome" element={requireAuth([<Navbar />, <StudentHomepage />])} />
           <Route path="/feedback" element={requireAuth([<Navbar/>,<Feedback/>])} />
+          <Route path="/borrowed" element={requireAuth([<Navbar/>,<UserCheckoutPage/>])} />
           <Route path="/search" element={<Search />} />
 
           <Route path="/staffhome" element={requireAuth(<StaffHome />)} />

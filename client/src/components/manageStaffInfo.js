@@ -1,175 +1,53 @@
-import React from "react";
-import axios from "axios";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const ManageStaffInfo = () => {
-  const [username, setusername] = useState('');
-  const [password, setpassword] = useState('');
-  const [users, setUsers] = useState([]);
+function ManageUser() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [usertype, setUsertype] = useState('');
+  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [selectedContacts, setSelectedContacts] = useState([]);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [showContactList, setShowContactList] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  // Function to fetch the contact list from the server
-  const fetchContacts = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/getusers');
-      setUsers(response.data);
-    } catch (err) {
-      setError('Failed to fetch contacts');
-    }
-  };
-
-  useEffect(() => {
-    // Fetch the contact list when the component mounts
-    fetchContacts();
-  }, []);
-
-  // // Function to update a contact
-  // const handleUpdateContact = async (contact) => {
-  //   try {
-  //     const updatedusername = prompt('Enter updated username:', contact.username);
-  //     const updatedpassword = prompt('Enter updated password:', contact.password);
-
-  //     if (!updatedusername || !updatedpassword) {
-  //       setError('username and password cannot be empty');
-  //       return;
-  //     }
-
-  //     const response = await axios.put(`http://localhost:5000/updateContact/${contact._id}`, {
-  //       username: updatedusername,
-  //       password: updatedpassword,
-  //     });
-
-  //     setContacts(
-  //       contacts.map((c) => (c._id === response.data._id ? { ...c, username: response.data.username, password: response.data.password } : c))
-  //     );
-
-  //     setError('');
-  //   } catch (err) {
-  //     setError('Failed to update contact');
-  //   }
-  // };
-
-  const handleAddContact = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/addContact', { username, password });
-      setSuccess(true);
-      setError('');
-      setUsers([...users, response.data]);
-      setusername('');
-      setpassword('');
-    } catch (err) {
-      setSuccess(false);
-      setError('Failed to add contact');
+      const response = await axios.post('http://localhost:5000/manageuser', {
+        username,
+        password,
+        usertype,
+      });
+
+      setMessage(response.data.message);
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error) {
+      setError('Failed to manage user');
+      setTimeout(() => setMessage(''), 3000);
     }
   };
-
-  // const handleDeleteContacts = async () => {
-  //   try {
-  //     const selectedIds = selectedContacts.map((contact) => contact._id);
-  //     await axios.delete(`http://localhost:5000/deleteContact/${selectedIds[0]}`);
-  //     setContacts(contacts.filter((contact) => !selectedIds.includes(contact._id)));
-  //     setSelectedContacts([]);
-  //     setShowDeleteConfirm(false);
-  //   } catch (err) {
-  //     setError('Failed to delete contacts');
-  //   }
-  // };
-
-  // const handleCheckboxChange = (e, contact) => {
-  //   const { checked } = e.target;
-  //   if (checked) {
-  //     setSelectedContacts([...selectedContacts, contact]);
-  //   } else {
-  //     setSelectedContacts(selectedContacts.filter((selectedContact) => selectedContact._id !== contact._id));
-  //   }
-  // };
 
   return (
     <div>
-      <h1>Contact App</h1>
-      <div classusername="buttons-container">
-        <button onClick={() => setShowAddForm(!showAddForm)} classusername="action-button">
-          {showAddForm ? 'Cancel' : 'Add Contact'}
-        </button>
-        <button onClick={() => setShowContactList(!showContactList)} classusername="action-button">
-          Contact List
-        </button>
-        {showContactList}
-         {/* && (
-          <>
-            <button onClick={() => setShowDeleteConfirm(true)} classusername="action-button">
-              Delete
-            </button>
-          </>
-        )} */}
-      </div>
-
-      {showAddForm && (
-        <form onSubmit={handleAddContact}>
-          <div>
-            <label htmlFor="username">username:</label>
-            <input type="text" id="username" value={username} onChange={(e) => setusername(e.target.value)} required />
-          </div>
-          <div>
-            <label htmlFor="password">password:</label>
-            <input type="text" id="password" value={password} onChange={(e) => setpassword(e.target.value)} required />
-          </div>
-          {error && <div>{error}</div>}
-          {success && <div>Contact added successfully!</div>}
-          <button type="submit">Add Contact</button>
-        </form>
-      )}
-
-      {showContactList && users.length > 0 && !showAddForm && (
-        <table>
-          <thead>
-            <tr>
-              <th>username</th>
-              <th>password</th>
-              {/* <th>Edit</th>
-              {showDeleteConfirm && <th>Action</th>} */}
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user.username}</td>
-                <td>{user.password}</td>
-                {/* {showDeleteConfirm && (
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedContacts.some((selectedContact) => selectedContact._id === contact._id)}
-                      onChange={(e) => handleCheckboxChange(e, contact)}
-                    />
-                  </td>
-                )} */}
-                {/* <td>
-                  <button onClick={() => handleUpdateContact(contact)}>Update</button>
-                </td> */}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      {/* {showDeleteConfirm && selectedContacts.length > 0 && (
+      <h2>Manage User</h2>
+      {message && <div>{message}</div>}
+      {error && <div>{error}</div>}
+      <form onSubmit={handleSubmit}>
         <div>
-          <h3>Confirm Deletion</h3>
-          <p>Are you sure you want to delete the selected contacts?</p>
-          <button onClick={handleDeleteContacts}>Confirm Delete</button>
+          <label htmlFor="username">Username:</label>
+          <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
-      )} */}
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="usertype">User Type:</label>
+          <input type="text" id="usertype" value={usertype} onChange={(e) => setUsertype(e.target.value)} />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default ManageStaffInfo;
+export default ManageUser;

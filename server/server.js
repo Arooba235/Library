@@ -104,37 +104,6 @@ app.get('/feedbackmanager', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.post('/addUser', async (req, res) => {
   const { username, password } = req.body;
   // const wins = 0;
@@ -169,94 +138,31 @@ app.get('/getusers', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch Users' });
   }
 });
-
-// app.delete('/deleteContact/:id', async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     await User.findByIdAndRemove(id);
-//     res.json({ message: 'Contact deleted successfully' });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ error: 'Failed to delete contact' });
-//   }
-// });
-
-// app.put('/updateContact/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const { name, number } = req.body;
-
-//   try {
-//     const updatedContact = await User.findByIdAndUpdate(id, { name, number }, { new: true });
-//     res.json(updatedContact);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ error: 'Failed to update contact' });
-//   }
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.post('/manageuser', async (req, res) => {
+  try {
+    const { username, password, usertype } = req.body;
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      // Update the existing user
+      existingUser.password = password;
+      existingUser.usertype = usertype;
+
+      await existingUser.save();
+      res.status(200).json({ message: 'User updated successfully' });
+    } else {
+      // Create a new user
+      const newUser = new User({ username, password, usertype });
+      await newUser.save();
+      res.status(201).json({ message: 'User added successfully' });
+    }
+  } catch (error) {
+    console.error('Error managing user:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 
@@ -406,6 +312,38 @@ app.post('/feedbackStaff', async (req, res) => {
     res.status(200).json(feedbackData);
   } catch (error) {
     console.error('Error fetching feedback:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.get('/viewcheckout/:username', async (req, res) => {
+  try {
+    const checkouts = await Checkout.find({ studentName: req.params.username });
+    res.json(checkouts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to fetch checkouts' });
+  }
+});
+
+app.post('/returnbook', async (req, res) => {
+  try {
+    const { checkoutId } = req.body;
+    const checkout = await Checkout.findById(checkoutId);
+    if (!checkout) {
+      return res.status(404).json({ error: 'Checkout not found' });
+    }
+    const newBook = new Book({
+      title: checkout.title,
+      author: checkout.author,
+      genre: checkout.genre,
+    });
+    await Checkout.findByIdAndDelete(checkoutId);
+    await newBook.save();
+
+    res.status(200).json({ message: 'Book returned successfully' });
+  } catch (error) {
+    console.error('Error returning book:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
