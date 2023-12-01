@@ -15,6 +15,8 @@ import BookRequest from './components/bookRequest.js'
 import NavbarStaff from './navbarStaff.js';
 import FeedbackStaff from './components/feedbackStaff.js';
 import ViewCheckout from './components/viewCheckout.js';
+import ManagerHome from './components/ManagerHome.js';
+import NavbarManager from './navbarManager.js';
 
 function App() {
   return (
@@ -25,12 +27,20 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/studenthome" element={[<Navbar />, <StudentHomepage />]} />
           <Route path="/feedback" element={[<Navbar/>,<Feedback/>]} />
-          <Route path="/staffhome" element={<StaffHome />} />
-          <Route path="/managebooks" element={[<NavbarStaff/>,<ManageBooks />]} />
           <Route path="/search" element={<Search />} />
+
+          <Route path="/staffhome" element={<StaffHome />} />
+          <Route path="/managebooks" element={[<NavbarStaff/>,<ManageBooks />]} />          
           <Route path="/bookRequest" element={[<NavbarStaff/>,<BookRequest />]} />
           <Route path="/feedbackStaff" element={[<NavbarStaff/>,<FeedbackStaff />]} />          
           <Route path="/checkout" element={[<NavbarStaff/>,<ViewCheckout />]} />
+          
+          <Route path="/managerhome" element={<ManagerHome />} />
+          <Route path="/managebooksManager" element={[<NavbarManager/>,<ManageBooks />]} />        
+          <Route path="/checkoutManager" element={[<NavbarManager/>,<ViewCheckout />]} />          
+          <Route path="/bookRequestManager" element={[<NavbarManager/>,<BookRequest />]} />
+
+          
         </Routes>
       </Router>
     </div>
