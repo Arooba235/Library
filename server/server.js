@@ -64,6 +64,9 @@ app.post('/signup', async (req, res) => {
     
     res.status(201).json({ message: 'User created successfully' });
 });
+
+
+
 app.post('/addbook', async (req, res) => {
   try {
     const { title, author, genre } = req.body;
@@ -89,6 +92,161 @@ app.get('/getbooks', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch Books' });
   }
 });
+
+app.get('/feedbackmanager', async (req, res) => {
+  try {
+    const feedbacks = await Feedback.find();
+    res.json(feedbacks);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to fetch Feedbacks' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.post('/addContact', async (req, res) => {
+  const { name, number } = req.body;
+
+  try {
+    const newContact = new User({ name, number });
+    await newContact.save();
+    res.status(201).json(newContact);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to add User' });
+  }
+});
+
+app.get('/getContacts', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to fetch Users' });
+  }
+});
+
+app.delete('/deleteContact/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await User.findByIdAndRemove(id);
+    res.json({ message: 'Contact deleted successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to delete contact' });
+  }
+});
+
+app.put('/updateContact/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, number } = req.body;
+
+  try {
+    const updatedContact = await User.findByIdAndUpdate(id, { name, number }, { new: true });
+    res.json(updatedContact);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to update contact' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.post('/feedback', async (req, res) => {
   try {

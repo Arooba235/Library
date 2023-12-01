@@ -17,6 +17,8 @@ import FeedbackStaff from './components/feedbackStaff.js';
 import ViewCheckout from './components/viewCheckout.js';
 import ManagerHome from './components/ManagerHome.js';
 import NavbarManager from './navbarManager.js';
+import FeedbackManager from './components/feedbackManager.js';
+import ManageStaffInfo from './components/manageStaffInfo.js';
 // import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -62,6 +64,8 @@ function App() {
           <Route path="/managebooksManager" element={requireAuth([<NavbarManager/>,<ManageBooks />])} />        
           <Route path="/checkoutManager" element={requireAuth([<NavbarManager/>,<ViewCheckout />])} />          
           <Route path="/bookRequestManager" element={requireAuth([<NavbarManager/>,<BookRequest />])} />
+          <Route path="/feedbackManager" element={requireAuth([<NavbarManager/>,<FeedbackManager/>])} />
+          <Route path="/manageStaffInfo" element={requireAuth([<NavbarManager/>,<ManageStaffInfo/>])} />
 
           
         </Routes>

@@ -9,6 +9,8 @@ const NavbarManager = (prop)=>{
             <ul className='items'>
                 <li className='comp'><Link to="/managebooksManager">Manage Book Collection</Link></li>
                 <li className='comp'><Link to='/bookRequestManager'>Book Acquisition Requests</Link></li>
+                <li className='comp'><Link to='/feedbackManager'>Feedback List</Link></li>
+                <li className='com'><Link to='/updatestaffinfo'>Manage Staff</Link></li>
                 <li className='comp'><Link to='/checkoutManager'>View Checkout Details</Link></li>
                 <li className='comp'><Link to='/'>Logout</Link></li> 
                 
