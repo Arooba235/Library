@@ -168,7 +168,6 @@ app.post('/borrow', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-// ... (existing imports)
 
 app.get('/getrequests', async (req, res) => {
   try {
@@ -218,8 +217,28 @@ app.post('/processrequest', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-
+app.get('/viewcheckout', async (req, res) => {
+  try {
+    const requests = await Checkout.find();
+    res.json(requests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to fetch requests' });
+  }
+});
+app.post('/feedbackStaff', async (req, res) => {
+  try {
+    const { staffName } = req.body;
+    const feedbackData = await Feedback.find({ staffId: staffName });
+    if (feedbackData.length === 0) {
+      return res.status(404).json({ error: 'No feedback found for the specified staff' });
+    }
+    res.status(200).json(feedbackData);
+  } catch (error) {
+    console.error('Error fetching feedback:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

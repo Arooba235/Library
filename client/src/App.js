@@ -13,6 +13,8 @@ import { Component, useState } from 'react';
 import Search from './components/Search.js';
 import BookRequest from './components/bookRequest.js'
 import NavbarStaff from './navbarStaff.js';
+import FeedbackStaff from './components/feedbackStaff.js';
+import ViewCheckout from './components/viewCheckout.js';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="/managebooks" element={[<NavbarStaff/>,<ManageBooks />]} />
           <Route path="/search" element={<Search />} />
           <Route path="/bookRequest" element={[<NavbarStaff/>,<BookRequest />]} />
+          <Route path="/feedbackStaff" element={[<NavbarStaff/>,<FeedbackStaff />]} />          
+          <Route path="/checkout" element={[<NavbarStaff/>,<ViewCheckout />]} />
         </Routes>
       </Router>
     </div>

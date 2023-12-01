@@ -9,6 +9,8 @@ const NavbarStaff = (prop)=>{
             <ul className='items'>
                 <li className='comp'><Link to="/managebooks">Manage Book Collection</Link></li>
                 <li className='comp'><Link to='/bookRequest'>Book Acquisition Requests</Link></li>
+                <li className='comp'><Link to='/feedbackStaff'>Analyze Feedback</Link></li>
+                <li className='comp'><Link to='/checkout'>View Checkout Details</Link></li>
                 <li className='comp'><Link to='/'>Logout</Link></li> 
                 
             </ul>                     

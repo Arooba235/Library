@@ -29,6 +29,7 @@ function Login() {
              navigate(`/studenthome`);
             break;
           case 'staff':
+            localStorage.setItem('staffname', username);
             navigate('/staffhome');
             break;
           case 'manager':
