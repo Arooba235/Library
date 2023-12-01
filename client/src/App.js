@@ -17,28 +17,51 @@ import FeedbackStaff from './components/feedbackStaff.js';
 import ViewCheckout from './components/viewCheckout.js';
 import ManagerHome from './components/ManagerHome.js';
 import NavbarManager from './navbarManager.js';
+// import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 function App() {
+  const [authenticated, setAuthenticated] = useState(false);
+
+  // Function to handle login and set authentication status
+  const handleLogin = () => {
+    // Assume authentication logic here
+    // For simplicity, let's set authenticated to true
+    setAuthenticated(true);
+  };
+
+  // Function to handle logout and set authentication status
+  const handleLogout = () => {
+    // Assume logout logic here
+    // For simplicity, let's set authenticated to false
+    setAuthenticated(false);
+  };
+
+  // Route guard function to check if the user is authenticated
+  const requireAuth = (element) => {
+    console.log('Authenticated:', authenticated);
+  return authenticated ? element : <Navigate to="/" />;
+  };
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/studenthome" element={[<Navbar />, <StudentHomepage />]} />
-          <Route path="/feedback" element={[<Navbar/>,<Feedback/>]} />
+          <Route path="/studenthome" element={requireAuth([<Navbar />, <StudentHomepage />])} />
+          <Route path="/feedback" element={requireAuth([<Navbar/>,<Feedback/>])} />
           <Route path="/search" element={<Search />} />
 
-          <Route path="/staffhome" element={<StaffHome />} />
-          <Route path="/managebooks" element={[<NavbarStaff/>,<ManageBooks />]} />          
-          <Route path="/bookRequest" element={[<NavbarStaff/>,<BookRequest />]} />
-          <Route path="/feedbackStaff" element={[<NavbarStaff/>,<FeedbackStaff />]} />          
-          <Route path="/checkout" element={[<NavbarStaff/>,<ViewCheckout />]} />
+          <Route path="/staffhome" element={requireAuth(<StaffHome />)} />
+          <Route path="/managebooks" element={requireAuth([<NavbarStaff/>,<ManageBooks />])} />          
+          <Route path="/bookRequest" element={requireAuth([<NavbarStaff/>,<BookRequest />])} />
+          <Route path="/feedbackStaff" element={requireAuth([<NavbarStaff/>,<FeedbackStaff />])} />          
+          <Route path="/checkout" element={requireAuth([<NavbarStaff/>,<ViewCheckout />])} />
           
-          <Route path="/managerhome" element={<ManagerHome />} />
-          <Route path="/managebooksManager" element={[<NavbarManager/>,<ManageBooks />]} />        
-          <Route path="/checkoutManager" element={[<NavbarManager/>,<ViewCheckout />]} />          
-          <Route path="/bookRequestManager" element={[<NavbarManager/>,<BookRequest />]} />
+          <Route path="/managerhome" element={requireAuth(<ManagerHome />)} />
+          <Route path="/managebooksManager" element={requireAuth([<NavbarManager/>,<ManageBooks />])} />        
+          <Route path="/checkoutManager" element={requireAuth([<NavbarManager/>,<ViewCheckout />])} />          
+          <Route path="/bookRequestManager" element={requireAuth([<NavbarManager/>,<BookRequest />])} />
 
           
         </Routes>

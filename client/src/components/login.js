@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate  } from 'react-router-dom';
 
-function Login() {
+function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,6 +22,7 @@ function Login() {
       .then(response => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('username', username);
+        onLogin()
         // window.location.href = '/';
         // Redirect based on usertype
         switch (response.data.usertype) {
