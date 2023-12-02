@@ -52,10 +52,10 @@ function Donations() {
       <div>
         <Link to="/" className="nav-link">Home</Link>
       </div>
-      <h1>Budget Management</h1>
+      <h1>Donate for a Cause</h1>
       <p>Existing Budget: {existingBudget}</p>
       <label>
-        Additional Amount:
+        Donate Amount:
         <input type="number" value={amount} onChange={handleAmountChange} />
       </label>
       <button onClick={handleAddBudget}>Add to Budget</button>

@@ -108,6 +108,24 @@ app.post('/donate', async (req, res) => {
   }
 });
 
+app.get('/users/staff/count', async (req, res) => {
+  try {
+    const staffCount = await User.countDocuments({ usertype: 'staff' });
+    res.status(200).json({ count: staffCount });
+  } catch (error) {
+    console.error('Error counting staff members:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+app.get('/users/manager/count', async (req, res) => {
+  try {
+    const managerCount = await User.countDocuments({ usertype: 'manager' });
+    res.status(200).json({ count: managerCount });
+  } catch (error) {
+    console.error('Error counting managers:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 

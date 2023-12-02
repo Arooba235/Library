@@ -7,7 +7,7 @@ function ManagerHome() {
           <button> <Link to="/managebooksManager">  Manage Book Collection! </Link> </button>
           <button> <Link to="/bookRequestManager"> Book Acquisition Requests </Link> </button>
           <button> <Link to="/feedbackmanager"> Feedbacks List </Link> </button>
-          <button> <Link to="/updatestaffinfo"> Manage Staff </Link> </button>
+          <button> <Link to="/manageStaffInfo"> Manage Staff </Link> </button>
           <button> <Link to="/budgetmanagement"> Budget Management </Link> </button>
           {/*<button> <Link to='/feedbackStaff'>Analyze Feedback</Link> </button>*/}
           <button> <Link to='/checkoutManager'>View Checkout Details</Link> </button>
