@@ -38,9 +38,9 @@ function Donations() {
       await axios.post('http://localhost:5000/donate', { amount });
       // Update the displayed existing budget
       setExistingBudget(existingBudget + parseFloat(amount));
-      // setAmount(''); // Clear the input field
+      setAmount(''); // Clear the input field
       setErrorMessage(''); // Clear any previous error message
-      alert('Budget amount added successfully');
+      // alert('Budget amount added successfully');
     } catch (error) {
       console.error('Error adding budget amount:', error);
       alert('Failed to add budget amount');

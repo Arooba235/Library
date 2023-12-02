@@ -97,7 +97,7 @@ app.post('/donate', async (req, res) => {
       await newBudget.save();
     } else {
       // If an existing budget is found, update the amount
-      existingBudget.amount += amount;
+      existingBudget.amount += parseFloat(amount);
       await existingBudget.save();
     }
 
