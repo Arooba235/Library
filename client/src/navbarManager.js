@@ -11,6 +11,7 @@ const NavbarManager = (prop)=>{
                 <li className='comp'><Link to='/bookRequestManager'>Book Acquisition Requests</Link></li>
                 <li className='comp'><Link to='/feedbackManager'>Feedback List</Link></li>
                 <li className='comp'><Link to='/manageStaffInfo'>Manage Staff</Link></li>
+                <li className='comp'><Link to='/budgetmanagement'>Budget Management</Link></li>
                 <li className='comp'><Link to='/checkoutManager'>View Checkout Details</Link></li>
                 <li className='comp'><Link to='/'>Logout</Link></li> 
                 

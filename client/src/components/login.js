@@ -64,7 +64,12 @@ function Login({ onLogin }) {
       <h1>
         Click on Register if you are a student and dont already have an account.
       </h1>
-      <Link to="/signup" className="nav-link">Register</Link>
+      <div>
+        <Link to="/signup" className="nav-link">Register</Link>
+      </div>
+      <div>
+        <Link to="/donations" className="nav-link">Donate</Link>
+      </div>
     </div>
   );
 }

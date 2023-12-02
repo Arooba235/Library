@@ -19,6 +19,8 @@ import ManagerHome from './components/ManagerHome.js';
 import NavbarManager from './navbarManager.js';
 import FeedbackManager from './components/feedbackManager.js';
 import ManageStaffInfo from './components/manageStaffInfo.js';
+import BudgetManagement from './components/budgetManagement.js';
+import Donations from './components/donations.js';
 // import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import UserCheckoutPage from './components/borrowedbooks.js';
@@ -68,6 +70,8 @@ function App() {
           <Route path="/bookRequestManager" element={requireAuth([<NavbarManager/>,<BookRequest />])} />
           <Route path="/feedbackManager" element={requireAuth([<NavbarManager/>,<FeedbackManager/>])} />
           <Route path="/manageStaffInfo" element={requireAuth([<NavbarManager/>,<ManageStaffInfo/>])} />
+          <Route path="/budgetmanagement" element={requireAuth([<NavbarManager/>,<BudgetManagement/>])} />
+          <Route path="/donations" element={<Donations/>} />
 
           
         </Routes>

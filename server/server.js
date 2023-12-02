@@ -7,6 +7,7 @@ import Feedback from "./models/feedback.model.js";
 import Book from "./models/books.model.js";
 import Request from "./models/request.model.js";
 import Checkout from "./models/checkout.model.js";
+import Budget from "./models/budget.model.js";
 // import Stats from "./models/stats.model.js";
 
 dotenv.config();
@@ -64,6 +65,49 @@ app.post('/signup', async (req, res) => {
     
     res.status(201).json({ message: 'User created successfully' });
 });
+
+app.get('/budget', async (req, res) => {
+  try {
+    // Fetch the existing budget
+    const existingBudget = await Budget.findOne();
+
+    if (!existingBudget) {
+      // If no existing budget, return 0
+      res.status(200).json({ amount: 0 });
+    } else {
+      // If an existing budget is found, return the amount
+      res.status(200).json({ amount: existingBudget.amount });
+    }
+  } catch (error) {
+    console.error('Error fetching existing budget:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/donate', async (req, res) => {
+  try {
+    const { amount } = req.body;
+
+    // Fetch the existing budget
+    const existingBudget = await Budget.findOne();
+
+    if (!existingBudget) {
+      // If no existing budget, create a new one
+      const newBudget = new Budget({ amount });
+      await newBudget.save();
+    } else {
+      // If an existing budget is found, update the amount
+      existingBudget.amount += amount;
+      await existingBudget.save();
+    }
+
+    res.status(201).json({ message: 'Budget amount added successfully' });
+  } catch (error) {
+    console.error('Error adding budget amount:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 
