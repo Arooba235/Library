@@ -20,17 +20,6 @@ function FeedbackManager() {
   useEffect(() => {
     fetchFeedbacks();
   }, []);
-  // const handleBorrow = async (title,author,genre) => {
-  //   try {
-  //     const studentName = username; 
-  //     console.log('handle borrow')
-  //     await axios.post('http://localhost:5000/borrow', { studentName, title,author,genre});
-  //     setBooks(prevBooks => prevBooks.filter(book => book.title !== title));
-  //     console.log('Book borrowed successfully');
-  //   } catch (error) {
-  //     console.error('Error borrowing book:', error);
-  //   }
-  // };
   
   return (
     <div>

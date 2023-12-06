@@ -11,7 +11,6 @@ function Donations() {
 
 
   useEffect(() => {
-    // Fetch the existing budget when the component mounts
     const fetchExistingBudget = async () => {
       try {
         const response = await axios.get('http://localhost:5000/budget');
@@ -34,13 +33,10 @@ function Donations() {
       return;
     }
     try {
-      // Send a POST request to the API to add a budget amount
       await axios.post('http://localhost:5000/donate', { amount });
-      // Update the displayed existing budget
       setExistingBudget(existingBudget + parseFloat(amount));
-      setAmount(''); // Clear the input field
-      setErrorMessage(''); // Clear any previous error message
-      // alert('Budget amount added successfully');
+      setAmount('');
+      setErrorMessage(''); 
     } catch (error) {
       console.error('Error adding budget amount:', error);
       alert('Failed to add budget amount');

@@ -8,7 +8,6 @@ import Book from "./models/books.model.js";
 import Request from "./models/request.model.js";
 import Checkout from "./models/checkout.model.js";
 import Budget from "./models/budget.model.js";
-// import Stats from "./models/stats.model.js";
 import Fine from "./models/fine.model.js";
 
 dotenv.config();
@@ -21,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true }); //, useCreateIndex: true });
+mongoose.connect(uri, { useNewUrlParser: true }); 
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
@@ -47,7 +46,6 @@ app.post('/signup', async (req, res) => {
     // const totalpoints = 0;
     const usertype = 'student';
   
-    // Check if username is already taken
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(409).json({ error: 'Username is already taken' });
@@ -60,7 +58,6 @@ app.post('/signup', async (req, res) => {
     }
   
     // Create new user
-    // const newUser = new User({ username, password, wins, totalpoints });
     const newUser = new User({ username, password, usertype });
     await newUser.save();
     
@@ -76,7 +73,6 @@ app.get('/budget', async (req, res) => {
       // If no existing budget, return 0
       res.status(200).json({ amount: 0 });
     } else {
-      // If an existing budget is found, return the amount
       res.status(200).json({ amount: existingBudget.amount });
     }
   } catch (error) {
@@ -180,7 +176,6 @@ app.post('/addUser', async (req, res) => {
   // const totalpoints = 0;
   const usertype = 'student';
 
-  // Check if username is already taken
   const existingUser = await User.findOne({ username });
   if (existingUser) {
     return res.status(409).json({ error: 'Username is already taken' });
@@ -193,7 +188,6 @@ app.post('/addUser', async (req, res) => {
   }
 
   // Create new user
-  // const newUser = new User({ username, password, wins, totalpoints });
   const newUser = new User({ username, password, usertype });
   await newUser.save();
   
@@ -212,18 +206,15 @@ app.post('/manageuser', async (req, res) => {
   try {
     const { username, password, usertype } = req.body;
 
-    // Check if the user already exists
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {
-      // Update the existing user
       existingUser.password = password;
       existingUser.usertype = usertype;
 
       await existingUser.save();
       res.status(200).json({ message: 'User updated successfully' });
     } else {
-      // Create a new user
       const newUser = new User({ username, password, usertype });
       await newUser.save();
       res.status(201).json({ message: 'User added successfully' });
