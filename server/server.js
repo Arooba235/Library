@@ -105,7 +105,17 @@ app.post('/donate', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+app.post('/removeFine', async (req, res) => {
+  try {
+    const { username } = req.body;
+    await Fine.deleteOne({ studentName: username});
 
+    res.status(201).json({ message: 'Deleted successfully' });
+  } catch (error) {
+    console.error('Error removing fine:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 app.get('/users/staff/count', async (req, res) => {
   try {
     const staffCount = await User.countDocuments({ usertype: 'staff' });

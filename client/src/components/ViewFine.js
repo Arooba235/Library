@@ -24,7 +24,9 @@ function ViewFine() {
 
   const handleReturn = async (fine) => {
     try {
+      const username = localStorage.getItem('username');
       await axios.post('http://localhost:5000/donate', { amount:fine.Fine });
+      await axios.post('http://localhost:5000/removeFine', { username });
       setFine((prevFine) => prevFine.filter((item) => item._id !== fine._id))
     } catch (error) {
       console.log(fine);
