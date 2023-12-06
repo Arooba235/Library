@@ -9,6 +9,7 @@ import Request from "./models/request.model.js";
 import Checkout from "./models/checkout.model.js";
 import Budget from "./models/budget.model.js";
 // import Stats from "./models/stats.model.js";
+import Fine from "./models/fine.model.js";
 
 dotenv.config();
 
@@ -87,17 +88,14 @@ app.get('/budget', async (req, res) => {
 app.post('/donate', async (req, res) => {
   try {
     const { amount } = req.body;
-
-    // Fetch the existing budget
     const existingBudget = await Budget.findOne();
 
     if (!existingBudget) {
-      // If no existing budget, create a new one
       const newBudget = new Budget({ amount });
       await newBudget.save();
     } else {
-      // If an existing budget is found, update the amount
       existingBudget.amount += parseFloat(amount);
+      
       await existingBudget.save();
     }
 
@@ -387,6 +385,15 @@ app.get('/viewcheckout/:username', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch checkouts' });
   }
 });
+app.get('/fine/:username', async (req, res) => {
+  try {
+    const fine = await Fine.find({ studentName: req.params.username });
+    res.json(fine);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Failed to fetch fine details' });
+  }
+});
 
 app.post('/returnbook', async (req, res) => {
   try {
@@ -400,6 +407,31 @@ app.post('/returnbook', async (req, res) => {
       author: checkout.author,
       genre: checkout.genre,
     });
+    const newreturnDate = new Date();
+    var fine=0;
+    if (checkout.returnDate<newreturnDate){
+      const days=(newreturnDate-checkout.returnDate)/(1000*60*60*24);
+      if(days>0){
+        fine=Math.floor(days*50);     
+        console.log(fine);
+        const userdetail = await Fine.findOne({studentName:checkout.studentName});
+        console.log(userdetail);
+        if(!userdetail){
+          console.log('inside');
+          const newfine=new Fine({
+            studentName:checkout.studentName,
+            Fine:fine,
+          });
+          await newfine.save();
+        }
+        else{
+          userdetail.Fine+=fine;
+          await userdetail.save();
+        }
+      }
+
+    }    
+   
     await Checkout.findByIdAndDelete(checkoutId);
     await newBook.save();
 

@@ -9,6 +9,7 @@ const Navbar = (prop)=>{
             <ul className='items'>
                 <li className='comp'><Link to='/borrowed'>Borrowed Books</Link></li>
                 <li className='comp'><Link to='/feedback'>Feedback</Link></li>
+                <li className='comp'><Link to='/fine'>View Fine</Link></li>
                 <li className='comp'><Link to='/'>Logout</Link></li> 
                 
             </ul>                     

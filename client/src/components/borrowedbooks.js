@@ -24,7 +24,7 @@ function UserCheckoutPage() {
 
   const handleReturn = async (checkoutId) => {
     try {
-      await axios.post('http://localhost:5000/returnbook', { checkoutId });
+      await axios.post('http://localhost:5000/returnbook', {checkoutId});
       const username = localStorage.getItem('username');
       const response = await axios.get(`http://localhost:5000/viewcheckout/${username}`);
       setCheckouts(response.data);

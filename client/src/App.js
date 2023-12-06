@@ -24,6 +24,7 @@ import Donations from './components/donations.js';
 // import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import UserCheckoutPage from './components/borrowedbooks.js';
+import ViewFine from './components/ViewFine.js';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -56,6 +57,7 @@ function App() {
           <Route path="/studenthome" element={requireAuth([<Navbar />, <StudentHomepage />])} />
           <Route path="/feedback" element={requireAuth([<Navbar/>,<Feedback/>])} />
           <Route path="/borrowed" element={requireAuth([<Navbar/>,<UserCheckoutPage/>])} />
+          <Route path="/fine" element={requireAuth([<Navbar/>,<ViewFine/>])} />
           <Route path="/search" element={<Search />} />
 
           <Route path="/staffhome" element={requireAuth(<StaffHome />)} />
